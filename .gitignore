@@ -1,0 +1,14 @@
+/target/
+/.vscode/
+
+*.dhall
+*.yml
+*.txt
+*.json
+
+*.png
+*.w3g
+*.out
+*.hi
+*.o
+hake

@@ -1,0 +1,40 @@
+[package]
+name                = "twilight"
+version             = "0.0.1"
+authors             = [ "Miezhiko" ]
+repository          = "https://github.com/Miezhiko/Twilight"
+readme              = "README.md"
+keywords            = [ "discord", "bot" ]
+edition             = "2021"
+description         = "discord bot for specific needs"
+license             = "AGPL-3.0"
+rust-version        = "1.76.0"
+
+[features]
+default = []
+
+[dependencies]
+anyhow                  = "1"
+tracing                 = "0.1"
+tracing-subscriber      = "0.3"
+serde                   = "1"
+serde_derive            = "1"
+serde_dhall             = "0.12"
+nipper                  = "0.1"
+twilight-http           = "0.16.0-rc.1"
+twilight-gateway        = "0.16.0-rc.1"
+twilight-cache-inmemory = "0.16.0-rc.1"
+twilight-model          = "0.16.0-rc.1"
+
+[dependencies.twilight-util]
+version = "0.16.0-rc.1"
+features = ["builder"]
+
+[dependencies.reqwest]
+version = "0.11"
+features = ["json", "blocking"]
+
+[dependencies.tokio]
+default-features = false
+features = ["macros", "signal", "rt-multi-thread"]
+version = "1"
