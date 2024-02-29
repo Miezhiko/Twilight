@@ -1,13 +1,36 @@
-use crate::types::common::{ IOptions, StateRef };
+use crate::types::common::{
+  IOptions,
+  StateRef
+};
+
 use crate::handler::handle_event;
 
 use std::sync::Arc;
-use twilight_cache_inmemory::{DefaultInMemoryCache, ResourceType};
-use twilight_gateway::{EventTypeFlags, Intents, Shard, ShardId, StreamExt as _};
+
+use twilight_cache_inmemory::{
+  DefaultInMemoryCache,
+  ResourceType
+};
+
+use twilight_gateway::{
+  EventTypeFlags,
+  Intents, Shard,
+  ShardId,
+  StreamExt as _
+};
+
 use twilight_http::Client as HttpClient;
 
+use tracing_subscriber::FmtSubscriber;
+
+use tracing::{ Level, instrument };
+
+#[instrument]
 pub async fn run(opts: IOptions) -> anyhow::Result<()> {
-  tracing_subscriber::fmt::init();
+  let subscriber = FmtSubscriber::builder()
+    .with_max_level(Level::INFO)
+    .finish();
+  tracing::subscriber::set_global_default(subscriber)?;
 
   let mut shard = Shard::new(
     ShardId::ONE,
@@ -20,11 +43,13 @@ pub async fn run(opts: IOptions) -> anyhow::Result<()> {
                 .resource_types(ResourceType::MESSAGE)
                 .build();
 
-   let request_client = reqwest::Client::builder()
+  let request_client = reqwest::Client::builder()
                 .pool_max_idle_per_host(0)
                 .build()?;
 
   let state = Arc::new(StateRef { http, request_client });
+
+  tracing::info!("listening events");
 
   while let Some(item) = shard.next_event(EventTypeFlags::all()).await {
     let Ok(event) = item else {

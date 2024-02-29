@@ -146,17 +146,22 @@ pub async fn handle_event(
   event: Event,
   state: State,
 ) -> Result<(), Box<dyn Error + Send + Sync>> {
-  if let Event::MessageCreate(msg) = event {
-    if msg.guild_id.is_none() || !msg.content.starts_with('!') {
-      {};
+  match event {
+    Event::MessageCreate(msg) => {
+      if msg.guild_id.is_some() || msg.content.starts_with('-') {
+        match msg.content.split_whitespace().next() {
+          Some("-help") => spawn(help(msg.0, Arc::clone(&state))),
+          Some("-bug")  => spawn(bug(msg.0, Arc::clone(&state))),
+          Some("-wiki") => spawn(wiki(msg.0, Arc::clone(&state))),
+          Some(_)       => {}
+          None          => {}
+        }
+      }
     }
-    match msg.content.split_whitespace().next() {
-      Some("-help") => spawn(help(msg.0, Arc::clone(&state))),
-      Some("-bug")  => spawn(bug(msg.0, Arc::clone(&state))),
-      Some("-wiki") => spawn(wiki(msg.0, Arc::clone(&state))),
-      Some(_)       => {}
-      None          => {}
+    Event::Ready(_) => {
+      tracing::info!("Shard is ready")
     }
+    _ => {}
   }
 
   Ok(())
