@@ -33,7 +33,7 @@ fn spawn(fut: impl Future<Output = anyhow::Result<()>> + Send + 'static) {
 
 async fn help(msg: Message, state: State) -> anyhow::Result<()> {
   tracing::debug!(
-    "wiki command in channel {} by {}",
+    "help command in channel {} by {}",
     msg.channel_id,
     msg.author.name
   );
@@ -83,8 +83,6 @@ async fn bug(msg: Message, state: State) -> anyhow::Result<()> {
       .title(&bug.summary)
       .url(format!("https://bugs.gentoo.org/{bug_number}"))
       .color(0xfd_69_b3)
-      .field(EmbedFieldBuilder::new("1", "3").inline())
-      .field(EmbedFieldBuilder::new("2", "4").inline())
       .footer(EmbedFooterBuilder::new(&format!("Requested by {}", msg.author.name)));
     if !bug.creation_time.is_empty() {
       if let Ok(dt) = Timestamp::from_str(&bug.creation_time) {
