@@ -4,7 +4,12 @@ use crate::{
     bug::bug,
     wiki::wiki,
     overlays::overlays,
-    info::{ register, show, list, delete }
+    info::{
+      register::register,
+      show::show,
+      list::list,
+      delete::delete
+    }
   }
 };
 
