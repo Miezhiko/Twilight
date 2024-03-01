@@ -1,6 +1,7 @@
 /target/
 /.vscode/
 
+*.sled
 *.dhall
 *.yml
 *.txt

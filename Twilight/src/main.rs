@@ -4,6 +4,7 @@ mod types;
 mod options;
 mod twilight;
 mod handler;
+mod commands;
 
 #[tokio::main(worker_threads=8)]
 async fn main() -> anyhow::Result<()> {
