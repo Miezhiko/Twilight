@@ -1,7 +1,7 @@
 /target/
 /.vscode/
+/trees/
 
-*.sled
 *.dhall
 *.yml
 *.txt

@@ -2,6 +2,7 @@
 
 mod types;
 mod options;
+mod db;
 mod twilight;
 mod handler;
 mod commands;

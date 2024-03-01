@@ -3,7 +3,8 @@ use crate::{
   commands::{
     bug::bug,
     wiki::wiki,
-    overlays::overlays
+    overlays::overlays,
+    info::{ register, show, list, delete }
   }
 };
 
@@ -52,6 +53,10 @@ pub async fn handle_event(
           Some("-bug")      => spawn(bug(msg.0, Arc::clone(&state))),
           Some("-wiki")     => spawn(wiki(msg.0, Arc::clone(&state))),
           Some("-overlays") => spawn(overlays(msg.0, Arc::clone(&state))),
+          Some("-register") => spawn(register(msg.0, Arc::clone(&state))),
+          Some("-show")     => spawn(show(msg.0, Arc::clone(&state))),
+          Some("-list")     => spawn(list(msg.0, Arc::clone(&state))),
+          Some("-delete")   => spawn(delete(msg.0, Arc::clone(&state))),
           Some(_)           => {}
           None              => {}
         }

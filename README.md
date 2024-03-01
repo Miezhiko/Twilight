@@ -6,3 +6,7 @@ Twilight Commands
  - -bug <number>
  - -overlays <text>
  - -wiki <text>
+ - -register <key> <text>
+ - -show <key>
+ - -list
+ - -delete <key>
