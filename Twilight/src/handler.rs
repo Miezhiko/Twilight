@@ -2,7 +2,8 @@ use crate::{
   types::common::State,
   commands::{
     bug::bug,
-    wiki::wiki
+    wiki::wiki,
+    overlays::overlays
   }
 };
 
@@ -34,7 +35,7 @@ async fn help(msg: Message, state: State) -> anyhow::Result<()> {
     .http
     .create_message(msg.channel_id)
     .reply(msg.id)
-    .content("I can handle -bug <num> command, maybe LOL")
+    .content("I can handle -bug <num> command, and maybe -overlays <search>")
     .await?;
   Ok(())
 }
@@ -47,11 +48,12 @@ pub async fn handle_event(
     Event::MessageCreate(msg) => {
       if msg.guild_id.is_some() || msg.content.starts_with('-') {
         match msg.content.split_whitespace().next() {
-          Some("-help") => spawn(help(msg.0, Arc::clone(&state))),
-          Some("-bug")  => spawn(bug(msg.0, Arc::clone(&state))),
-          Some("-wiki") => spawn(wiki(msg.0, Arc::clone(&state))),
-          Some(_)       => {}
-          None          => {}
+          Some("-help")     => spawn(help(msg.0, Arc::clone(&state))),
+          Some("-bug")      => spawn(bug(msg.0, Arc::clone(&state))),
+          Some("-wiki")     => spawn(wiki(msg.0, Arc::clone(&state))),
+          Some("-overlays") => spawn(overlays(msg.0, Arc::clone(&state))),
+          Some(_)           => {}
+          None              => {}
         }
       }
     }
