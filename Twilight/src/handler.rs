@@ -35,7 +35,7 @@ async fn help(msg: Message, state: State) -> anyhow::Result<()> {
     .http
     .create_message(msg.channel_id)
     .reply(msg.id)
-    .content("I can handle -bug <num> command, and maybe -overlays <search>")
+    .content("I can handle -bug <num> command, and maybe -overlays <search>, and -wiki <search>")
     .await?;
   Ok(())
 }

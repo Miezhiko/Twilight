@@ -20,3 +20,5 @@ pub struct Bug {
 pub struct Bugs {
   pub bugs: Vec<Bug>
 }
+
+pub type Wiki = (String, Vec<String>, Vec<String>, Vec<String>);
