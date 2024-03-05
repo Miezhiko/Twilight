@@ -20,11 +20,9 @@ pub async fn wiki(msg: Message, state: State) -> anyhow::Result<()> {
 
   let mut search_text = String::new();
   for if_str in msg.content.split_whitespace() {
-    if if_str.len() > 1 {
-      if if_str != "-wiki" {
-        search_text = if_str.to_string();
-        break;
-      }
+    if if_str.len() > 1 && if_str != "-wiki" {
+      search_text = if_str.to_string();
+      break;
     }
   }
 
@@ -40,11 +38,9 @@ pub async fn wiki(msg: Message, state: State) -> anyhow::Result<()> {
 
   let mut maybe_second = String::new();
   for if_str in msg.content.split_whitespace() {
-    if if_str.len() > 1 {
-      if if_str != "-wiki" && if_str != search_text {
-        maybe_second = if_str.to_string();
-        break;
-      }
+    if if_str.len() > 1 && if_str != "-wiki" && if_str != search_text {
+      maybe_second = if_str.to_string();
+      break;
     }
   }
 
@@ -67,7 +63,7 @@ pub async fn wiki(msg: Message, state: State) -> anyhow::Result<()> {
     .title(&search_request)
     .url( links.first().unwrap_or(&"https://wiki.gentoo.org".to_string()) )
     .color(0xfd_69_b3)
-    .footer(EmbedFooterBuilder::new(&format!("Requested by {}", msg.author.name)));
+    .footer(EmbedFooterBuilder::new(format!("Requested by {}", msg.author.name)));
 
   let mut filtered_result = false;
   if !maybe_second.is_empty() {

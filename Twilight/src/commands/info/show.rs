@@ -14,11 +14,9 @@ pub async fn show(msg: Message, state: State) -> anyhow::Result<()> {
 
   let mut key = String::new();
   for if_str in msg.content.split_whitespace() {
-    if if_str.len() > 1 {
-      if if_str != "-show" {
-        key = if_str.to_string();
-        break;
-      }
+    if if_str.len() > 1 && if_str != "-show" {
+      key = if_str.to_string();
+      break;
     }
   }
 

@@ -16,21 +16,26 @@ use twilight_util::builder::embed::{
   EmbedFooterBuilder
 };
 
-pub async fn bug(msg: Message, state: State) -> anyhow::Result<()> {
+pub async fn bug(msg: Message, number: Option<i32>, state: State) -> anyhow::Result<()> {
   tracing::debug!(
     "bug command in channel {} by {}",
     msg.channel_id,
     msg.author.name
   );
   let mut bug_number = -1;
-  for if_num in msg.content.split_whitespace() {
-    let try_num = if_num.parse::<i32>();
-    match try_num {
-      Ok(num) => {
-        bug_number = num;
-        break;
-      }, Err(_) => {
-        continue;
+  match number {
+    Some(num) => { bug_number = num },
+    None      => {
+      for if_num in msg.content.split_whitespace() {
+        let try_num = if_num.parse::<i32>();
+        match try_num {
+          Ok(num) => {
+            bug_number = num;
+            break;
+          }, Err(_) => {
+            continue;
+          }
+        }
       }
     }
   }
@@ -53,7 +58,7 @@ pub async fn bug(msg: Message, state: State) -> anyhow::Result<()> {
       .title(&bug.summary)
       .url(format!("https://bugs.gentoo.org/{bug_number}"))
       .color(0xfd_69_b3)
-      .footer(EmbedFooterBuilder::new(&format!("Requested by {}", msg.author.name)));
+      .footer(EmbedFooterBuilder::new(format!("Requested by {}", msg.author.name)));
     if !bug.creation_time.is_empty() {
       if let Ok(dt) = Timestamp::from_str(&bug.creation_time) {
         e = e.timestamp(dt);
