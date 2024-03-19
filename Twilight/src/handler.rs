@@ -62,6 +62,9 @@ pub async fn handle_event(
 ) -> Result<(), Box<dyn Error + Send + Sync>> {
   match event {
     Event::MessageCreate(msg) => {
+      if msg.author.bot {
+        return Ok(());
+      }
       if msg.guild_id.is_some() || msg.content.starts_with('-') {
         match msg.content.split_whitespace().next() {
           Some("-help")     => spawn(help(msg.0, Arc::clone(&state))),
