@@ -14,6 +14,8 @@ use twilight_util::builder::embed::{
   EmbedFooterBuilder
 };
 
+use chrono::DateTime;
+
 pub async fn bug(msg: Message, number: Option<i32>, state: State) -> anyhow::Result<()> {
   tracing::debug!(
     "bug command in channel {} by {}",
@@ -58,8 +60,10 @@ pub async fn bug(msg: Message, number: Option<i32>, state: State) -> anyhow::Res
       .color(0xfd_69_b3)
       .footer(EmbedFooterBuilder::new(format!("Requested by {}", msg.author.name)));
     if !bug.creation_time.is_empty() {
-      if let Ok(dt) = Timestamp::parse(&bug.creation_time) {
-        e = e.timestamp(dt);
+      if let Ok(dt) = DateTime::parse_from_rfc3339(&bug.creation_time) {
+        if let Ok(tt) = Timestamp::from_secs(dt.timestamp()) {
+          e = e.timestamp(tt);
+        }
       }
     }
     if !bug.assigned_to.is_empty() {

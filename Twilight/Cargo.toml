@@ -1,6 +1,6 @@
 [package]
 name                = "twilight"
-version             = "0.0.9"
+version             = "0.0.10"
 authors             = [ "Miezhiko" ]
 repository          = "https://github.com/Miezhiko/Twilight"
 readme              = "README.md"
@@ -28,13 +28,14 @@ twilight-gateway        = "0.16.0-rc.1"
 twilight-cache-inmemory = "0.16.0-rc.1"
 twilight-model          = "0.16.0-rc.1"
 regex                   = "1"
+chrono                  = "0.4"
 
 [dependencies.twilight-util]
 version = "0.16.0-rc.1"
 features = ["builder"]
 
 [dependencies.reqwest]
-version = "0.11"
+version = "0.12"
 features = ["json", "blocking"]
 
 [dependencies.tokio]
