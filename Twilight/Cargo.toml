@@ -1,6 +1,6 @@
 [package]
 name                = "twilight"
-version             = "0.0.8"
+version             = "0.0.9"
 authors             = [ "Miezhiko" ]
 repository          = "https://github.com/Miezhiko/Twilight"
 readme              = "README.md"

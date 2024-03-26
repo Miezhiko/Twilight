@@ -3,8 +3,6 @@ use crate::types::{
   gentoo::Bugs
 };
 
-use std::str::FromStr;
-
 use twilight_model::{
   channel::Message,
   util::Timestamp
@@ -60,8 +58,7 @@ pub async fn bug(msg: Message, number: Option<i32>, state: State) -> anyhow::Res
       .color(0xfd_69_b3)
       .footer(EmbedFooterBuilder::new(format!("Requested by {}", msg.author.name)));
     if !bug.creation_time.is_empty() {
-      // TODO: should be from_rfc3339
-      if let Ok(dt) = Timestamp::from_str(&bug.creation_time) {
+      if let Ok(dt) = Timestamp::parse(&bug.creation_time) {
         e = e.timestamp(dt);
       }
     }
