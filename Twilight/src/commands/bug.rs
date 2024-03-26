@@ -60,9 +60,13 @@ pub async fn bug(msg: Message, number: Option<i32>, state: State) -> anyhow::Res
       .color(0xfd_69_b3)
       .footer(EmbedFooterBuilder::new(format!("Requested by {}", msg.author.name)));
     if !bug.creation_time.is_empty() {
+      // TODO: should be from_rfc3339
       if let Ok(dt) = Timestamp::from_str(&bug.creation_time) {
         e = e.timestamp(dt);
       }
+    }
+    if !bug.assigned_to.is_empty() {
+      e = e.field(EmbedFieldBuilder::new("assigned", &bug.assigned_to).inline());
     }
     if !bug.creator.is_empty() {
       e = e.field(EmbedFieldBuilder::new("creator", &bug.creator).inline());
